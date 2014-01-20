@@ -17,8 +17,14 @@ out3 = platform.python_version()
 out4 = os.popen("cat /proc/meminfo").read().replace('kB', 'kB <br>') 
 
 # top 10 processes
+out5 = os.popen("bash -c ps -eo pmem,args,user | sort -nr | head -n 10")
+
 # uptime
+out6 = os.popen("bash -c uptime").read()
+
 # free disks
+out7 = os.popen("bash -c df").read()
+
 
 
 class HttpProcessor(BaseHTTPRequestHandler):
@@ -34,6 +40,12 @@ class HttpProcessor(BaseHTTPRequestHandler):
         self.wfile.write(out3)
         self.wfile.write('<br>')
         self.wfile.write(out4)
+        self.wfile.write('<br>')
+        self.wfile.write(out5)
+        self.wfile.write('<br>')
+        self.wfile.write(out6)
+        self.wfile.write('<br>')
+        self.wfile.write(out7)
 
-serv = HTTPServer(("localhost",86),HttpProcessor)
+serv = HTTPServer(("localhost",80),HttpProcessor)
 serv.serve_forever()
